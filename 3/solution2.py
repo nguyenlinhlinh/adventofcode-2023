@@ -35,7 +35,6 @@ for symbol  in symbols:
         idx2 = gears.pop()
         total+= numbers.pop(idx1)* numbers.pop(idx2) 
 
-print(numbers)
 print(total)
 
 # Solution 75519888

@@ -2,7 +2,7 @@ f= open("3/input.txt", "r")
 total = 0
 schematic = {}
 symbols = []
-numbers = []
+numbers = {}
 row = -1
 for line in f:
     row += 1
@@ -17,7 +17,7 @@ for line in f:
             if isSymbol:
                 symbols.append((row, col))
             if len(nbr) > 0: 
-                numbers.append(int(nbr))
+                numbers[len(numbers)] = int(nbr)
                 nbr = ""
 
 for symbol  in symbols:
@@ -27,9 +27,9 @@ for symbol  in symbols:
         if p in schematic:
             idx = schematic[p]
             del schematic[p]
-            if numbers[idx]:
+            if idx in numbers:
                 total += numbers[idx]
-                numbers[idx] = None
+                numbers.pop(idx)
 
 print(total)
 
