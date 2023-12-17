@@ -24,37 +24,29 @@ for hand in f:
     bid = int(bid)
     count = Counter(hand)
     maxDup = max(count.values())
-    groupIndex = maxDup
+    groupIdx = High
     if maxDup == 5:
-        grouped[Five].append((hand, bid))
+        groupIdx = Five
     elif maxDup == 4:
-        grouped[Four].append((hand, bid))
+        groupIdx = Four
     elif maxDup == 3:
         maxV = 0
         for k, v in count.items():
             if v != 3:
                 maxV = max(maxV, v)
-        if maxV == 2:
-            grouped[Full].append((hand, bid))
-        else:
-            grouped[Three].append((hand, bid))
+        groupIdx = Full if maxV == 2 else Three
     elif maxDup == 2:
         pairs = 0
         for k, v in count.items():
             if v == 2:
                 pairs += 1
-        if pairs == 2:
-            grouped[Two].append((hand, bid))
-        else:
-            grouped[One].append((hand, bid))
-    else:
-        grouped[High].append((hand, bid))
+        groupIdx = Two if pairs == 2 else One
+    grouped[groupIdx].append((hand, bid))
 
 finished = []
 for i in range(len(grouped)):
     s = sorted(grouped[i], key=cmp_to_key(compare) )
     finished += s
-print("finished", finished)
 
 total = 0
 for i in range(len(finished)):

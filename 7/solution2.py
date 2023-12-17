@@ -34,33 +34,27 @@ for hand in f:
     (hand, bid) = hand.strip().split()
     bid = int(bid)
     count = Counter(hand)
-    (char, maxDup) = getMaxDuplicateCards(count) 
+    (card, maxDup) = getMaxDuplicateCards(count) 
     maxDup += count.get("J", 0)
-    count[char] = maxDup
+    count[card] = maxDup
+    groupIdx = 0
     if maxDup == 5:
-        grouped[Five].append((hand, bid))
+        groupIdx = Five
     elif maxDup == 4:
-        grouped[Four].append((hand, bid))
+        groupIdx = Four
     elif maxDup == 3:
         maxV = 0
         for k, v in count.items():
             if v != 3 and k != "J":
                 maxV = max(maxV, v)
-        if maxV == 2:
-            grouped[Full].append((hand, bid))
-        else:
-            grouped[Three].append((hand, bid))
+        groupIdx = Full if maxV == 2 else Three
     elif maxDup == 2:
         pairs = 0
         for k, v in count.items():
             if v == 2:
                 pairs += 1
-        if pairs == 2:
-            grouped[Two].append((hand, bid))
-        else:
-            grouped[One].append((hand, bid))
-    else:
-        grouped[High].append((hand, bid))
+        groupIdx = Two if pairs == 2 else One
+    grouped[groupIdx].append((hand, bid))
 
 finished = []
 for i in range(len(grouped)):
